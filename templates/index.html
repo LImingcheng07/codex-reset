@@ -161,15 +161,32 @@ function rCred(c){
   return`<div class="ci" id="c-${esc(id)}"><div class="cinf"><span class="cty">${esc(ty)}</span><span class="cid">${esc(id)}</span></div><div class="cst">${used?'<span class="bg bgw">已使用</span>':`<button class="btn bs bc" onclick="consume('${esc(id)}',this)">重置额度</button>`}</div></div>`;
 }
 
+function fmtVal(v){
+  if(v===null||v===undefined)return '—';
+  if(typeof v==='boolean')return v?'是':'否';
+  if(typeof v==='object')return JSON.stringify(v);
+  return String(v);
+}
 function rUsage(u){
   const r=[];
-  if(u.rate_limit!==undefined)r.push(['速率限制',u.rate_limit]);
-  if(u.rate_limit_remaining!==undefined)r.push(['剩余次数',u.rate_limit_remaining]);
-  if(u.rate_limit_reset!==undefined)r.push(['重置时间',new Date(u.rate_limit_reset*1000).toLocaleString('zh-CN')]);
-  if(u.usage!==undefined)r.push(['已使用',u.usage]);
   if(u.plan_type)r.push(['计划',u.plan_type]);
-  if(!r.length)for(const[k,v]of Object.entries(u))if(typeof v!=='object')r.push([k,String(v)]);
-  return r.map(([k,v])=>`<div class="ir"><span class="il">${esc(k)}</span><span class="iv">${esc(String(v))}</span></div>`).join('');
+  if(u.email)r.push(['邮箱',u.email]);
+  const rl=u.rate_limit;
+  if(rl){
+    r.push(['速率限制',rl.limit_reached?'已达到':'正常']);
+    r.push(['已使用',rl.primary_window?.used_percent+'%']);
+    const rst=rl.primary_window?.reset_at;
+    if(rst)r.push(['重置时间',new Date(rst*1000).toLocaleString('zh-CN')]);
+  }
+  if(u.rate_limit_remaining!==undefined)r.push(['剩余次数',u.rate_limit_remaining]);
+  const cr=u.credits;
+  if(cr){
+    r.push(['Credits',cr.has_credits?'有':'无']);
+    if(cr.unlimited)r.push(['无限额度','是']);
+  }
+  if(u.rate_limit_reset_credits)r.push(['可用 Reset Credit',u.rate_limit_reset_credits.available_count??0]);
+  if(!r.length)for(const[k,v]of Object.entries(u))if(v!==null&&typeof v!=='object')r.push([k,fmtVal(v)]);
+  return r.map(([k,v])=>`<div class="ir"><span class="il">${esc(k)}</span><span class="iv">${esc(fmtVal(v))}</span></div>`).join('');
 }
 
 async function consume(cid,btn){
