@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codex 额度重置</title>
+<style>
+:root{--bg:#0d0d0d;--s:#1a1a1a;--b:#2a2a2a;--ba:#3a3a3a;--t:#e8e8e8;--td:#888;--a:#10a37f;--ah:#1a7a5c;--d:#ef4444;--dd:rgba(239,68,68,.15);--su:#22c55e;--sd:rgba(34,197,94,.15);--w:#f59e0b;--wd:rgba(245,158,11,.15);--r:12px;--rs:8px;--f:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,sans-serif;--m:"SF Mono","Fira Code",monospace}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--f);background:var(--bg);color:var(--t);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased}
+.c{max-width:640px;margin:0 auto;padding:3rem 1.5rem 4rem}
+header{text-align:center;margin-bottom:2.5rem}
+header h1{font-size:1.75rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.5rem}
+header p{color:var(--td);font-size:.9rem}
+.is{background:var(--s);border:1px solid var(--b);border-radius:var(--r);padding:1.5rem;margin-bottom:1.5rem}
+.is label{display:block;font-size:.85rem;font-weight:500;color:var(--td);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.05em}
+textarea{width:100%;min-height:140px;background:var(--bg);border:1px solid var(--b);border-radius:var(--rs);color:var(--t);font-family:var(--m);font-size:.8rem;padding:.875rem;resize:vertical;transition:border-color .2s;line-height:1.5}
+textarea:focus{outline:none;border-color:var(--a)}
+textarea::placeholder{color:#555}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border:none;border-radius:var(--rs);font-family:var(--f);font-size:.9rem;font-weight:500;cursor:pointer;transition:all .15s;padding:.75rem 1.5rem;line-height:1}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.bp{background:var(--a);color:#fff;width:100%;margin-top:1rem}
+.bp:hover:not(:disabled){background:var(--ah)}
+.bs{padding:.5rem 1rem;font-size:.8rem;border-radius:6px}
+.bc{background:var(--a);color:#fff}
+.bc:hover:not(:disabled){background:var(--ah)}
+.sp{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .6s linear infinite;flex-shrink:0}
+@keyframes sp{to{transform:rotate(360deg)}}
+.r{margin-top:1.5rem}
+.cd{background:var(--s);border:1px solid var(--b);border-radius:var(--r);padding:1.25rem;margin-bottom:1rem;transition:border-color .2s}
+.cd:hover{border-color:var(--ba)}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.ct{font-size:.85rem;font-weight:600;color:var(--td);text-transform:uppercase;letter-spacing:.05em}
+.bg{display:inline-flex;align-items:center;padding:.25rem .625rem;border-radius:100px;font-size:.75rem;font-weight:500}
+.bgs{background:var(--sd);color:var(--su)}
+.bgw{background:var(--wd);color:var(--w)}
+.bgd{background:var(--dd);color:var(--d)}
+.ir{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--b)}
+.ir:last-child{border-bottom:none}
+.il{font-size:.85rem;color:var(--td)}
+.iv{font-size:.85rem;font-weight:500;font-family:var(--m)}
+.ci{display:flex;align-items:center;justify-content:space-between;padding:.875rem 1rem;background:var(--bg);border:1px solid var(--b);border-radius:var(--rs);margin-bottom:.5rem;transition:border-color .2s}
+.ci:hover{border-color:var(--ba)}
+.ci:last-child{margin-bottom:0}
+.cinf{display:flex;flex-direction:column;gap:.25rem;min-width:0}
+.cid{font-size:.8rem;font-family:var(--m);color:var(--td);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cty{font-size:.8rem;color:var(--t);font-weight:500}
+.cst{flex-shrink:0;margin-left:1rem;display:flex;align-items:center;gap:.5rem}
+.tc{position:fixed;top:1.5rem;right:1.5rem;z-index:1000;display:flex;flex-direction:column;gap:.5rem;pointer-events:none}
+.to{background:var(--s);border:1px solid var(--b);border-radius:var(--rs);padding:.75rem 1rem;font-size:.85rem;box-shadow:0 8px 32px rgba(0,0,0,.4);animation:ti .3s ease;pointer-events:auto;max-width:360px;display:flex;align-items:center;gap:.5rem}
+.to.out{animation:to .25s ease forwards}
+.ts{border-left:3px solid var(--su)}
+.te{border-left:3px solid var(--d)}
+@keyframes ti{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:translateX(0)}}
+@keyframes to{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(100%)}}
+.eb{background:var(--dd);border:1px solid rgba(239,68,68,.3);border-radius:var(--rs);padding:1rem 1.25rem;margin-top:1rem;font-size:.85rem;color:var(--d);white-space:pre-wrap;word-break:break-all;display:none}
+.es{text-align:center;padding:2rem;color:var(--td);font-size:.9rem}
+.ht{margin-top:1rem;padding:1rem 1.25rem;background:var(--s);border:1px solid var(--b);border-radius:var(--rs);font-size:.8rem;color:var(--td);line-height:1.7}
+.ht code{font-family:var(--m);background:var(--bg);padding:.15rem .4rem;border-radius:4px;font-size:.75rem}
+.ht a{color:var(--a);text-decoration:none}
+.ht a:hover{text-decoration:underline}
+@media(max-width:480px){.c{padding:2rem 1rem 3rem}header h1{font-size:1.5rem}.ci{flex-direction:column;align-items:flex-start;gap:.75rem}.cst{margin-left:0}}
+</style>
+</head>
+<body>
+<div class="c">
+  <header>
+    <h1>Codex 额度重置</h1>
+    <p>粘贴 ChatGPT session JSON 查询和重置速率限制</p>
+  </header>
+  <div class="is">
+    <label for="si">Session JSON</label>
+    <textarea id="si" placeholder='从浏览器 DevTools 复制 https://chatgpt.com/api/auth/session 的响应&#10;&#10;{ "user":{...}, "accessToken":"eyJ...", ... }' spellcheck="false"></textarea>
+    <button class="btn bp" id="qb" onclick="run()"><span id="qt">查询资格</span></button>
+  </div>
+  <div class="eb" id="eb"></div>
+  <div class="r" id="rs" style="display:none"></div>
+  <div class="ht">
+    <strong>如何获取：</strong><br>
+    1. 浏览器登录 <a href="https://chatgpt.com" target="_blank">chatgpt.com</a><br>
+    2. F12 → Network → 访问 <code>https://chatgpt.com/api/auth/session</code><br>
+    3. 复制 Response JSON → 粘贴到上方 → 点「查询资格」
+  </div>
+</div>
+<div class="tc" id="tc"></div>
+<script>
+const $=s=>document.querySelector(s);
+let sd=null;
+
+function ld(b,on){b.disabled=on;on?b.insertAdjacentHTML('afterbegin','<span class="sp"></span>'):b.querySelector('.sp')?.remove()}
+function ts(m,t='success'){const c=$('#tc'),e=document.createElement('div');e.className=`to ${t==='success'?'ts':'te'}`;e.textContent=m;c.appendChild(e);setTimeout(()=>{e.classList.add('out');e.addEventListener('animationend',()=>e.remove())},3000)}
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function showErr(m){const e=$('#eb');e.textContent=m;e.style.display='block'}
+function hideErr(){$('#eb').style.display='none'}
+
+function parse(raw){
+  raw=raw.replace(/^[\ufeff\u200b\u200c\u200d]+/,'').trim();
+  if(raw[0]!=='{'){const i=raw.indexOf('{');if(i>=0)raw=raw.slice(i)}
+  const d=JSON.parse(raw);
+  if(!d.accessToken)throw new Error('缺少 accessToken');
+  const aid=d.account?.id||d.user?.id;
+  if(!aid)throw new Error('缺少 account.id 或 user.id');
+  return{token:d.accessToken,aid};
+}
+
+async function api(path,body){
+  const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const d=await r.json();
+  if(!r.ok)throw new Error(d.error||`HTTP ${r.status}`);
+  return d;
+}
+
+async function run(){
+  hideErr();
+  let p;
+  try{p=parse($('#si').value)}catch(e){showErr('JSON 解析失败: '+e.message);ts('解析失败','error');return}
+  const btn=$('#qb'),t=$('#qt');
+  ld(btn,true);t.textContent='查询中...';
+  $('#rs').style.display='none';
+  try{
+    const d=await api('/api/check-session',{session_json:$('#si').value});
+    sd={token:d.access_token,aid:d.account_id};
+    render(d);
+    ts('查询成功');
+  }catch(e){
+    showErr(e.message);ts('查询失败','error');
+  }finally{ld(btn,false);t.textContent='查询资格'}
+}
+
+function render(d){
+  const rs=$('#rs');rs.style.display='block';let h='';
+  const el=d.eligibility||{};
+  const ok=el.is_eligible??el.eligible??(el.detail?false:null);
+  const bc=ok===true?'bgs':ok===false?'bgd':'bgw';
+  const bt=ok===true?'有资格':ok===false?'无资格':'未知';
+  h+=`<div class="cd"><div class="ch"><span class="ct">邀请资格</span><span class="bg ${bc}">${bt}</span></div>${rElig(el)}</div>`;
+
+  const cr=d.credits?.credits||d.credits||[];
+  const ca=Array.isArray(cr)?cr:[];
+  h+=`<div class="cd"><div class="ch"><span class="ct">重置额度</span><span class="bg ${ca.length?'bgs':'bgw'}">${ca.length} 个可用</span></div>${ca.length?ca.map(c=>rCred(c)).join(''):'<div class="es">暂无可用额度</div>'}</div>`;
+
+  if(d.usage)h+=`<div class="cd"><div class="ch"><span class="ct">使用状态</span></div>${rUsage(d.usage)}</div>`;
+  rs.innerHTML=h;
+}
+
+function rElig(el){
+  const f=[];
+  if(el.detail)f.push(['状态',el.detail]);
+  if(el.referral_key)f.push(['Referral Key',el.referral_key]);
+  if(el.reason)f.push(['原因',el.reason]);
+  if(el.remaining_invites!==undefined)f.push(['剩余邀请',el.remaining_invites]);
+  if(!f.length)for(const[k,v]of Object.entries(el))if(typeof v!=='object')f.push([k,String(v)]);
+  return f.map(([k,v])=>`<div class="ir"><span class="il">${esc(k)}</span><span class="iv">${esc(String(v))}</span></div>`).join('');
+}
+
+function rCred(c){
+  const id=c.credit_id||c.id||'—';
+  const ty=c.type||c.credit_type||'Rate Limit Reset';
+  const st=c.status||'available';
+  const used=st==='consumed'||st==='used';
+  return`<div class="ci" id="c-${esc(id)}"><div class="cinf"><span class="cty">${esc(ty)}</span><span class="cid">${esc(id)}</span></div><div class="cst">${used?'<span class="bg bgw">已使用</span>':`<button class="btn bs bc" onclick="consume('${esc(id)}',this)">重置额度</button>`}</div></div>`;
+}
+
+function rUsage(u){
+  const r=[];
+  if(u.rate_limit!==undefined)r.push(['速率限制',u.rate_limit]);
+  if(u.rate_limit_remaining!==undefined)r.push(['剩余次数',u.rate_limit_remaining]);
+  if(u.rate_limit_reset!==undefined)r.push(['重置时间',new Date(u.rate_limit_reset*1000).toLocaleString('zh-CN')]);
+  if(u.usage!==undefined)r.push(['已使用',u.usage]);
+  if(u.plan_type)r.push(['计划',u.plan_type]);
+  if(!r.length)for(const[k,v]of Object.entries(u))if(typeof v!=='object')r.push([k,String(v)]);
+  return r.map(([k,v])=>`<div class="ir"><span class="il">${esc(k)}</span><span class="iv">${esc(String(v))}</span></div>`).join('');
+}
+
+async function consume(cid,btn){
+  if(!sd){ts('请先查询','error');return}
+  ld(btn,true);btn.textContent='处理中...';
+  try{
+    await api('/api/consume-credit',{access_token:sd.token,account_id:sd.aid,credit_id:cid});
+    ts('重置成功！');
+    const el=document.getElementById(`c-${CSS.escape(cid)}`);
+    if(el)el.querySelector('.cst').innerHTML='<span class="bg bgw">已使用</span>';
+    refresh();
+  }catch(e){ts('重置失败: '+e.message,'error')}
+  finally{ld(btn,false);btn.textContent='重置额度'}
+}
+
+async function refresh(){
+  if(!sd)return;
+  try{const d=await api('/api/check-session',{session_json:JSON.stringify({accessToken:sd.token,account:{id:sd.aid}})});render(d)}catch(_){}
+}
+
+$('#si').addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='Enter'){e.preventDefault();run()}});
+</script>
+</body>
+</html>
